@@ -2,8 +2,9 @@
 
 -behaviour(gen_server).
 -include("data.hrl").
+-include("interface.hrl").
 -export([init/1, handle_cast/2, handle_call/3,
-  start/0, read_all_accounts_and_filter/1, get/2, get/1]).
+  start/0, read_all_accounts_and_filter/1, get/2]).
 
 
 start() ->
@@ -12,17 +13,11 @@ start() ->
   {ok, Pid}.
 
 
--record(get, {fromAccountId :: number()}).
--record(accountCreated,
-{
-  firstname :: binary(),
-  surname :: binary(),
-  account_number :: integer(),
-  amount :: number()}).
+
 
 
 get(Pid, FromAccountId) -> gen_server:call(Pid, #get{ fromAccountId = FromAccountId }).
-get(Pid) -> gen_server:call(Pid, #get{fromAccountId = 0}).
+%get(Pid) -> gen_server:call(Pid, #get{fromAccountId = 0}).
 
 -spec read_all_accounts_and_filter(number()) -> list(#accountCreated{}).
 read_all_accounts_and_filter(FromAccountId) ->
