@@ -25,6 +25,7 @@ start_cowboy() ->
 start(_StartType, _StartArgs) ->
     database:init_database(),
     start_cowboy(),
+    account_service:start(),
     erlbank_monolithic_sup:start_link().
 
 stop(_State) ->

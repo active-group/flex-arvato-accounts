@@ -2,7 +2,7 @@
 
 -module(business_logic).
 -include("data.hrl").
--export([open_account/2, get_account/1, get_person/1 ]).
+-export([open_account/2, get_account/1, get_person/1, get_all_accounts_from/1]).
 
 
 %% Opens an account, that is creates a new account containing a new person 
@@ -38,3 +38,9 @@ make_account(Person) ->
                    amount = 1000},
     database:put_account(Acc),
     Acc.
+
+-spec get_all_accounts_from(AccountsFromId :: number()) -> list(#account{}).
+get_all_accounts_from(AccountsFromId) ->
+  AllAccounts = database:get_all_accounts(),
+  Result = lists:filter( fun(Account) -> Account#account.account_number >= AccountsFromId end, AllAccounts),
+  Result.
