@@ -1,4 +1,4 @@
--record(get, {fromAccountId :: number()}).
+-record(get, {fromAccountId :: number() | all}).
 -record(accountCreated,
 {
   firstname :: binary(),

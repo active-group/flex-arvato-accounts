@@ -19,21 +19,25 @@ main_test_() ->
      {foreach,
       fun setup/0,
       fun cleanup/1,
-      [fun get_all_accounts/1, fun get_some_accounts/1]
+      [fun get_all_accounts/1, fun get_some_accounts/1, fun get_all_accounts_with_atom/1]
      }}.
 
 get_all_accounts(_) ->
-    fun() ->
-            AccountCreatedList = gen_server:call(global:whereis_name(account_service), #get{fromAccountId = 0}),
-            %AccountCreatedList = account_service:get(global:whereis_name(account_service)),
-            Count = length(AccountCreatedList),
-            ?assertEqual(Count, 4)
-    end.
+  fun() ->
+    AccountCreatedList = gen_server:call(global:whereis_name(account_service), #get{fromAccountId = 0}),
+    Count = length(AccountCreatedList),
+    ?assertEqual(Count, 4)
+  end.
+get_all_accounts_with_atom(_) ->
+  fun() ->
+    AccountCreatedList = gen_server:call(global:whereis_name(account_service), #get{fromAccountId = all}),
+    Count = length(AccountCreatedList),
+    ?assertEqual(Count, 4)
+  end.
 
 get_some_accounts(_) ->
     fun() ->
             AccountCreatedList = gen_server:call(global:whereis_name(account_service), #get{fromAccountId = 3}),
-            %AccountCreatedList = account_service:get(global:whereis_name(account_service)),
             Count = length(AccountCreatedList),
             ?assertEqual(Count, 2)
     end.
